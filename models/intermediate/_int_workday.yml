@@ -1,0 +1,144 @@
+version: 2
+
+models:
+  - name: int_workday__worker_details
+    description: >
+      Intermediate model enriching worker data with calculated fields. Includes 
+      employment status flags, tenure calculations, termination details, and 
+      compensation information.
+    columns:
+      - name: worker_id
+        description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+      - name: worker_code
+        description: '{{ doc("worker_code") }}'
+      - name: user_id
+        description: '{{ doc("user_id") }}'
+      - name: is_user_active
+        description: '{{ doc("is_user_active") }}'
+      - name: is_employed
+        description: '{{ doc("is_employed") }}'
+      - name: hire_date
+        description: '{{ doc("hire_date") }}'
+      - name: departure_date
+        description: '{{ doc("departure_date") }}'
+      - name: days_as_worker
+        description: '{{ doc("days_as_worker") }}'
+      - name: is_terminated
+        description: '{{ doc("is_terminated") }}'
+      - name: is_regrettable_termination
+        description: '{{ doc("is_regrettable_termination") }}'
+      - name: primary_termination_category
+        description: '{{ doc("primary_termination_category") }}'
+      - name: primary_termination_reason
+        description: '{{ doc("primary_termination_reason") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - worker_id
+              - source_relation
+
+  - name: int_workday__personal_details
+    description: >
+      Intermediate model combining personal information from multiple sources. 
+      Joins common data, country-specific data, names, emails, ethnicity, 
+      and military service into a single worker-level record.
+    columns:
+      - name: worker_id
+        description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+      - name: fivetran_id
+        description: '{{ doc("fivetran_id") }}'
+      - name: first_name
+        description: '{{ doc("first_name") }}'
+      - name: last_name
+        description: '{{ doc("last_name") }}'
+      - name: date_of_birth
+        description: '{{ doc("date_of_birth") }}'
+      - name: gender
+        description: '{{ doc("gender") }}'
+      - name: is_hispanic_or_latino
+        description: '{{ doc("is_hispanic_or_latino") }}'
+      - name: email_address
+        description: '{{ doc("email_address") }}'
+      - name: ethnicity_codes
+        description: '{{ doc("ethnicity_codes") }}'
+      - name: military_status
+        description: '{{ doc("military_status") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - worker_id
+              - source_relation
+
+  - name: int_workday__worker_position_enriched
+    description: >
+      Intermediate model enriching position data with tenure calculations. 
+      Calculates days employed in position and adds position-level metrics.
+    columns:
+      - name: worker_id
+        description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
+      - name: position_id
+        description: '{{ doc("position_id") }}'
+        tests:
+          - not_null
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+      - name: business_title
+        description: '{{ doc("business_title") }}'
+      - name: job_profile_id
+        description: '{{ doc("job_profile_id") }}'
+      - name: employee_type
+        description: '{{ doc("employee_type") }}'
+      - name: position_location
+        description: '{{ doc("position_location") }}'
+      - name: management_level_code
+        description: '{{ doc("management_level_code") }}'
+      - name: fte_percent
+        description: '{{ doc("fte_percent") }}'
+      - name: position_start_date
+        description: '{{ doc("position_start_date") }}'
+      - name: position_end_date
+        description: '{{ doc("position_end_date") }}'
+      - name: days_employed
+        description: '{{ doc("days_employed") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - worker_id
+              - position_id
+              - source_relation
+
+  - name: int_workday__worker_employee_enhanced
+    description: >
+      Intermediate model combining worker details, personal details, and position 
+      information into a comprehensive employee record. Adds tenure milestone flags.
+    columns:
+      - name: worker_id
+        description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
+      - name: position_id
+        description: '{{ doc("position_id") }}'
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+      - name: fivetran_id
+        description: '{{ doc("fivetran_id") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - worker_id
+              - position_id
+              - source_relation

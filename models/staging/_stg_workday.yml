@@ -1,0 +1,177 @@
+version: 2
+
+models:
+  - name: stg_workday__worker
+    description: >
+      Staging model for worker data. Contains employment status, compensation details, 
+      termination information, and other worker-level attributes. Filters to only active 
+      Fivetran records.
+    columns:
+      - name: worker_id
+        description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - worker_id
+              - source_relation
+
+  - name: stg_workday__worker_position
+    description: >
+      Staging model for worker position data. Contains job title, location, employment type,
+      and position-specific details. Filters to only active Fivetran records.
+    columns:
+      - name: worker_id
+        description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
+      - name: position_id
+        description: '{{ doc("position_id") }}'
+        tests:
+          - not_null
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - worker_id
+              - position_id
+              - source_relation
+
+  - name: stg_workday__personal_information_common_data
+    description: >
+      Staging model for common personal information. Contains date of birth, nationality, 
+      citizenship status, and birth location details.
+    columns:
+      - name: fivetran_id
+        description: '{{ doc("fivetran_id") }}'
+        tests:
+          - not_null
+      - name: worker_id
+        description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - fivetran_id
+              - source_relation
+
+  - name: stg_workday__country_personal_information
+    description: >
+      Staging model for country-specific personal information. Contains gender, 
+      Hispanic/Latino indicator, and marital status.
+    columns:
+      - name: fivetran_id
+        description: '{{ doc("fivetran_id") }}'
+        tests:
+          - not_null
+      - name: personal_info_common_id
+        description: Foreign key to personal_information_common_data.
+        tests:
+          - not_null
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - fivetran_id
+              - source_relation
+
+  - name: stg_workday__person_name
+    description: >
+      Staging model for person name data. Contains first name, last name, and name type.
+      Used to get the preferred name for employee displays.
+    columns:
+      - name: worker_id
+        description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+      - name: first_name
+        description: '{{ doc("first_name") }}'
+      - name: last_name
+        description: '{{ doc("last_name") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - worker_id
+              - source_relation
+              - person_name_type
+
+  - name: stg_workday__person_contact_email_address
+    description: >
+      Staging model for person email addresses. Contains work and personal email 
+      addresses with email type codes.
+    columns:
+      - name: person_contact_email_address_id
+        description: Unique identifier for the email record.
+        tests:
+          - not_null
+      - name: worker_id
+        description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+      - name: email_address
+        description: '{{ doc("email_address") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - person_contact_email_address_id
+              - source_relation
+
+  - name: stg_workday__personal_information_ethnicity
+    description: >
+      Staging model for ethnicity information. Contains ethnicity codes that are 
+      aggregated at the worker level in downstream models.
+    columns:
+      - name: ethnicity_id
+        description: Unique identifier for the ethnicity record.
+        tests:
+          - not_null
+      - name: worker_id
+        description: Foreign key linking to country_personal_information.
+        tests:
+          - not_null
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - ethnicity_id
+              - source_relation
+
+  - name: stg_workday__military_service
+    description: >
+      Staging model for military service records. Contains service branch, rank, 
+      discharge type, and service dates.
+    columns:
+      - name: worker_id
+        description: Foreign key linking to personal_information_common_data.
+        tests:
+          - not_null
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+      - name: military_status
+        description: '{{ doc("military_status") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - worker_id
+              - source_relation
