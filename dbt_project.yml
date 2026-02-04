@@ -1,9 +1,11 @@
 config-version: 2
 name: 'workday_employee_overview'
 version: '1.0.0'
+dbt-cloud:
+    project-id: 70403103996657
 require-dbt-version: [">=1.3.0", "<3.0.0"]
 
-profile: 'default'
+profile: 'workday_fivetran_dbt'
 
 model-paths: ["models"]
 macro-paths: ["macros"]

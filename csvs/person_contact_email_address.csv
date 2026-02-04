@@ -1,6 +1,0 @@
-id,personal_info_system_id,_fivetran_deleted,_fivetran_synced,email_address,email_code,email_comment
-EMAIL_001,WRK001,false,2024-01-15 10:30:00,alex.johnson@company.com,Alex_Johnson_WORK_Primary,
-EMAIL_002,WRK002,false,2024-01-15 10:30:00,sarah.thompson@company.com,Sarah_Thompson_WORK_Primary,
-EMAIL_003,WRK003,false,2024-01-15 10:30:00,miguel.garcia@company.com,Miguel_Garcia_WORK_Primary,
-EMAIL_004,WRK004,false,2024-01-15 10:30:00,robert.williams@company.com,Robert_Williams_WORK_Primary,
-EMAIL_005,WRK005,false,2024-01-15 10:30:00,emily.brown@company.co.uk,Emily_Brown_WORK_Primary,

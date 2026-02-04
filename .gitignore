@@ -1,0 +1,11 @@
+target/
+dbt_packages/
+dbt_internal_packages/
+logs/
+.user.yml
+*.pyc
+__pycache__/
+.env
+csvs/
+upload_to_snowflake.py
+generate_data.py
