@@ -7,10 +7,11 @@ sources:
     database: 'Workday'
     schema: 'workday_raw'
     
-    # Default freshness for all tables - 3 years (will pass since data is ~2 years old)
+    # Default freshness for all tables - 780 days (~2 years 1.5 months)
+    # Data is ~750 days old, so this passes by about 1 month
     config:
       freshness:
-        error_after: { count: 1095, period: day }
+        error_after: { count: 780, period: day }
     
     tables:
       # This one will FAIL - freshness error after 1 hour
@@ -50,7 +51,7 @@ sources:
           Worker position history including job details, location, and employment type.
         config:
           freshness:
-            error_after: { count: 1095, period: day }
+            error_after: { count: 780, period: day }
           loaded_at_field: "CAST(_fivetran_synced AS TIMESTAMP)"
         columns:
           - name: position_id
@@ -81,7 +82,7 @@ sources:
           Common personal information including date of birth, nationality, and citizenship.
         config:
           freshness:
-            error_after: { count: 1095, period: day }
+            error_after: { count: 780, period: day }
           loaded_at_field: "CAST(_fivetran_synced AS TIMESTAMP)"
         columns:
           - name: fivetran_id
@@ -104,7 +105,7 @@ sources:
           Country-specific personal information including gender and marital status.
         config:
           freshness:
-            error_after: { count: 1095, period: day }
+            error_after: { count: 780, period: day }
           loaded_at_field: "CAST(_fivetran_synced AS TIMESTAMP)"
         columns:
           - name: fivetran_id
@@ -127,7 +128,7 @@ sources:
           Person name data including first name, last name, and name type.
         config:
           freshness:
-            error_after: { count: 1095, period: day }
+            error_after: { count: 780, period: day }
           loaded_at_field: "CAST(_fivetran_synced AS TIMESTAMP)"
         columns:
           - name: index
@@ -150,7 +151,7 @@ sources:
           Contact email addresses for workers.
         config:
           freshness:
-            error_after: { count: 1095, period: day }
+            error_after: { count: 780, period: day }
           loaded_at_field: "CAST(_fivetran_synced AS TIMESTAMP)"
         columns:
           - name: id
@@ -171,7 +172,7 @@ sources:
           Ethnicity information for workers.
         config:
           freshness:
-            error_after: { count: 1095, period: day }
+            error_after: { count: 780, period: day }
           loaded_at_field: "CAST(_fivetran_synced AS TIMESTAMP)"
         columns:
           - name: id
@@ -190,7 +191,7 @@ sources:
           Military service records for workers.
         config:
           freshness:
-            error_after: { count: 1095, period: day }
+            error_after: { count: 780, period: day }
           loaded_at_field: "CAST(_fivetran_synced AS TIMESTAMP)"
         columns:
           - name: personal_info_common_id
