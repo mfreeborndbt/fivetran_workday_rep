@@ -12,8 +12,10 @@ models:
       - name: id
         description: Unique identifier for the worker record.
         tests:
-          - unique
-          - not_null
+          - unique:
+              name: base_worker__id_unique
+          - not_null:
+              name: base_worker__id_not_null
 
   - name: stg_workday__worker_position_base
     description: >
@@ -25,13 +27,16 @@ models:
       - name: position_id
         description: Unique identifier for the position.
         tests:
-          - not_null
+          - not_null:
+              name: base_position__position_id_not_null
       - name: worker_id
         description: Foreign key to the worker.
         tests:
-          - not_null
+          - not_null:
+              name: base_position__worker_id_not_null
     tests:
       - dbt_utils.unique_combination_of_columns:
+          name: base_position__unique_position_worker
           arguments:
             combination_of_columns:
               - position_id
@@ -46,8 +51,10 @@ models:
       - name: fivetran_id
         description: Fivetran composite key identifier.
         tests:
-          - unique
-          - not_null
+          - unique:
+              name: base_personal_info__fivetran_id_unique
+          - not_null:
+              name: base_personal_info__fivetran_id_not_null
 
   - name: stg_workday__country_personal_information_base
     description: >
@@ -58,8 +65,10 @@ models:
       - name: fivetran_id
         description: Fivetran composite key identifier.
         tests:
-          - unique
-          - not_null
+          - unique:
+              name: base_country_personal__fivetran_id_unique
+          - not_null:
+              name: base_country_personal__fivetran_id_not_null
 
   - name: stg_workday__person_name_base
     description: >
@@ -70,13 +79,15 @@ models:
       - name: personal_info_system_id
         description: The worker ID this name belongs to.
         tests:
-          - not_null
+          - not_null:
+              name: base_person_name__system_id_not_null
       - name: index
         description: Index for multiple name records per person.
       - name: type
         description: The type of name (preferred, legal, etc.).
     tests:
       - dbt_utils.unique_combination_of_columns:
+          name: base_person_name__unique_system_index_type
           arguments:
             combination_of_columns:
               - personal_info_system_id
@@ -92,8 +103,10 @@ models:
       - name: id
         description: Unique identifier for the email record.
         tests:
-          - unique
-          - not_null
+          - unique:
+              name: base_email__id_unique
+          - not_null:
+              name: base_email__id_not_null
 
   - name: stg_workday__personal_information_ethnicity_base
     description: >
@@ -104,8 +117,10 @@ models:
       - name: id
         description: Unique identifier for the ethnicity record.
         tests:
-          - unique
-          - not_null
+          - unique:
+              name: base_ethnicity__id_unique
+          - not_null:
+              name: base_ethnicity__id_not_null
 
   - name: stg_workday__military_service_base
     description: >
@@ -116,5 +131,7 @@ models:
       - name: personal_info_common_id
         description: Foreign key to personal information common data.
         tests:
-          - unique
-          - not_null
+          - unique:
+              name: base_military__personal_info_id_unique
+          - not_null:
+              name: base_military__personal_info_id_not_null

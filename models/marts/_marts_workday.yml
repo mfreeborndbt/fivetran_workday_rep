@@ -7,12 +7,15 @@ models:
       - name: employee_id
         description: '{{ doc("employee_id") }}'
         tests:
-          - unique
-          - not_null
+          - unique:
+              name: employee_overview__employee_id_unique
+          - not_null:
+              name: employee_overview__employee_id_not_null
       - name: worker_id
         description: '{{ doc("worker_id") }}'
         tests:
-          - not_null
+          - not_null:
+              name: employee_overview__worker_id_not_null
       - name: source_relation
         description: '{{ doc("source_relation") }}'
       - name: fivetran_id

@@ -12,7 +12,8 @@ models:
       - name: worker_id
         description: '{{ doc("worker_id") }}'
         tests:
-          - not_null
+          - not_null:
+              name: int_worker_details__worker_id_not_null
       - name: source_relation
         description: '{{ doc("source_relation") }}'
       - name: worker_code
@@ -39,6 +40,7 @@ models:
         description: '{{ doc("primary_termination_reason") }}'
     tests:
       - dbt_utils.unique_combination_of_columns:
+          name: int_worker_details__unique_worker_source
           arguments:
             combination_of_columns:
               - worker_id
@@ -55,7 +57,8 @@ models:
       - name: worker_id
         description: '{{ doc("worker_id") }}'
         tests:
-          - not_null
+          - not_null:
+              name: int_personal_details__worker_id_not_null
       - name: source_relation
         description: '{{ doc("source_relation") }}'
       - name: fivetran_id
@@ -80,6 +83,7 @@ models:
         description: '{{ doc("military_status") }}'
     tests:
       - dbt_utils.unique_combination_of_columns:
+          name: int_personal_details__unique_worker_source
           arguments:
             combination_of_columns:
               - worker_id
@@ -95,11 +99,13 @@ models:
       - name: worker_id
         description: '{{ doc("worker_id") }}'
         tests:
-          - not_null
+          - not_null:
+              name: int_position_enriched__worker_id_not_null
       - name: position_id
         description: '{{ doc("position_id") }}'
         tests:
-          - not_null
+          - not_null:
+              name: int_position_enriched__position_id_not_null
       - name: source_relation
         description: '{{ doc("source_relation") }}'
       - name: business_title
@@ -122,6 +128,7 @@ models:
         description: '{{ doc("days_employed") }}'
     tests:
       - dbt_utils.unique_combination_of_columns:
+          name: int_position_enriched__unique_worker_position_source
           arguments:
             combination_of_columns:
               - worker_id
@@ -136,7 +143,8 @@ models:
       - name: worker_id
         description: '{{ doc("worker_id") }}'
         tests:
-          - not_null
+          - not_null:
+              name: int_employee_enhanced__worker_id_not_null
       - name: position_id
         description: '{{ doc("position_id") }}'
       - name: source_relation
@@ -237,6 +245,7 @@ models:
         description: Flag indicating if current active employee has been employed for at least 30 years.
     tests:
       - dbt_utils.unique_combination_of_columns:
+          name: int_employee_enhanced__unique_worker_position_source
           arguments:
             combination_of_columns:
               - worker_id
