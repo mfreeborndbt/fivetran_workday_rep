@@ -4,11 +4,6 @@ sources:
   - name: workday
     description: >
       Workday HCM data synced via Fivetran. Contains employee, position, and personal information.
-      
-      Source Freshness Configuration (run with `dbt source freshness` in dbt Cloud):
-      - worker_history: ERROR after 1 hour (demo - will fail since data is from Jan 2024)
-      - worker_position_history: WARN after 1 hour (demo - will show warning)
-      - All other tables: ERROR after 730 days (will pass)
     database: 'Workday'
     schema: 'workday_raw'
     

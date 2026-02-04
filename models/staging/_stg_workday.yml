@@ -17,10 +17,20 @@ models:
         description: '{{ doc("hire_date") }}'
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
+              name: valid_hire_date_range
               arguments:
                 min_value: "'2000-01-01'"
                 max_value: "current_date"
               config:
+                where: "hire_date is not null"
+          # Intentionally failing test (as warning) - demonstrates data quality monitoring
+          - dbt_expectations.expect_column_values_to_be_between:
+              name: warn_hire_date_after_2024
+              arguments:
+                min_value: "'2024-01-01'"
+                max_value: "current_date"
+              config:
+                severity: warn
                 where: "hire_date is not null"
     tests:
       - dbt_utils.unique_combination_of_columns:
@@ -71,6 +81,7 @@ models:
         description: '{{ doc("date_of_birth") }}'
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
+              name: valid_date_of_birth_range
               arguments:
                 min_value: "'1940-01-01'"
                 max_value: "'2010-01-01'"
@@ -102,6 +113,7 @@ models:
         description: '{{ doc("gender") }}'
         tests:
           - dbt_expectations.expect_column_values_to_be_in_set:
+              name: valid_gender_values
               arguments:
                 value_set: ['Male', 'Female', 'Non-Binary', 'Other', 'Prefer Not to Say']
               config:
@@ -155,6 +167,7 @@ models:
         description: '{{ doc("email_address") }}'
         tests:
           - dbt_expectations.expect_column_values_to_match_regex:
+              name: valid_email_format
               arguments:
                 regex: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
               config:

@@ -1,0 +1,42 @@
+# Source Freshness Configuration
+# ================================
+# This file contains source freshness configuration for dbt Cloud.
+# Run with: dbt source freshness
+# 
+# NOTE: This is separate from src_workday.yml because dbt Fusion preview
+# does not support source freshness configuration. In dbt Cloud, create
+# a job step that runs: dbt source freshness --select source:workday
+#
+# Expected results:
+# - worker_history: ERROR (freshness > 1 hour)
+# - All other sources: PASS (freshness < 3 years)
+
+version: 2
+
+sources:
+  - name: workday
+    database: 'Workday'
+    schema: 'workday_raw'
+    # Default freshness: 3 years (will pass for data synced Jan 2024)
+    freshness:
+      error_after:
+        count: 1095
+        period: day
+    loaded_at_field: _fivetran_synced
+    
+    tables:
+      # This one will FAIL - freshness error after 1 hour
+      - name: worker_history
+        freshness:
+          error_after:
+            count: 1
+            period: hour
+
+      # These use default (3 years) and will PASS
+      - name: worker_position_history
+      - name: personal_information_common_data
+      - name: country_personal_information
+      - name: person_name
+      - name: person_contact_email_address
+      - name: personal_information_ethnicity
+      - name: military_service
