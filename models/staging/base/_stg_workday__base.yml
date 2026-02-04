@@ -2,7 +2,12 @@ version: 2
 
 models:
   - name: stg_workday__worker_base
-    description: Base staging model for worker history data from the Workday source. This model unions data if multiple sources are configured.
+    description: >
+      Base staging model for worker history data. This layer handles data sourcing using 
+      fivetran_utils.union_data to support multi-source scenarios (e.g., multiple Workday 
+      instances for different regions). If only one source is configured, it simply selects 
+      from that source. The model adds a source_relation column to track data lineage when 
+      multiple sources are unioned. No transformations are applied at this layer.
     columns:
       - name: id
         description: Unique identifier for the worker record.
@@ -11,7 +16,11 @@ models:
           - not_null
 
   - name: stg_workday__worker_position_base
-    description: Base staging model for worker position history data from the Workday source. Contains raw position assignments.
+    description: >
+      Base staging model for worker position history data. Uses fivetran_utils.union_data 
+      to union multiple Workday sources if configured. This layer provides raw position 
+      assignment data with source tracking via source_relation. No column renaming or 
+      filtering is performed here.
     columns:
       - name: position_id
         description: Unique identifier for the position.
@@ -29,7 +38,10 @@ models:
               - worker_id
 
   - name: stg_workday__personal_information_common_data_base
-    description: Base staging model for common personal information data. Contains nationality, birth information, and citizenship details.
+    description: >
+      Base staging model for common personal information. Uses fivetran_utils.union_data 
+      to support multiple Workday instances. Contains raw nationality, birth information, 
+      and citizenship details before any column standardization or filtering.
     columns:
       - name: fivetran_id
         description: Fivetran composite key identifier.
@@ -38,7 +50,10 @@ models:
           - not_null
 
   - name: stg_workday__country_personal_information_base
-    description: Base staging model for country-specific personal information. Contains gender, marital status, and country-specific fields.
+    description: >
+      Base staging model for country-specific personal information. Handles multi-source 
+      union via fivetran_utils.union_data. Contains raw gender, marital status, and 
+      country-specific fields without transformation.
     columns:
       - name: fivetran_id
         description: Fivetran composite key identifier.
@@ -47,7 +62,10 @@ models:
           - not_null
 
   - name: stg_workday__person_name_base
-    description: Base staging model for person name data. Contains first name, last name, and various name components.
+    description: >
+      Base staging model for person name data. Uses fivetran_utils.union_data for 
+      multi-source support. Contains raw first name, last name, and name type components 
+      before standardization in the staging layer.
     columns:
       - name: personal_info_system_id
         description: The worker ID this name belongs to.
@@ -66,7 +84,10 @@ models:
               - type
 
   - name: stg_workday__person_contact_email_address_base
-    description: Base staging model for person contact email addresses. Contains work and personal email addresses.
+    description: >
+      Base staging model for person contact email addresses. Handles multi-source union 
+      using fivetran_utils.union_data. Contains raw work and personal email addresses 
+      before column renaming and filtering.
     columns:
       - name: id
         description: Unique identifier for the email record.
@@ -75,7 +96,10 @@ models:
           - not_null
 
   - name: stg_workday__personal_information_ethnicity_base
-    description: Base staging model for personal ethnicity information. Contains ethnicity codes for workers.
+    description: >
+      Base staging model for personal ethnicity information. Uses fivetran_utils.union_data 
+      for multi-source scenarios. Contains raw ethnicity codes before any aggregation 
+      or transformation.
     columns:
       - name: id
         description: Unique identifier for the ethnicity record.
@@ -84,7 +108,10 @@ models:
           - not_null
 
   - name: stg_workday__military_service_base
-    description: Base staging model for military service records. Contains service branch, rank, and discharge information.
+    description: >
+      Base staging model for military service records. Handles multi-source union via 
+      fivetran_utils.union_data. Contains raw service branch, rank, and discharge 
+      information before standardization.
     columns:
       - name: personal_info_common_id
         description: Foreign key to personal information common data.

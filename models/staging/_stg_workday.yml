@@ -3,9 +3,13 @@ version: 2
 models:
   - name: stg_workday__worker
     description: >
-      Staging model for worker data. Contains employment status, compensation details, 
-      termination information, and other worker-level attributes. Filters to only active 
-      Fivetran records.
+      Staging model for worker data that transforms raw data from the base layer. 
+      Key transformations include: (1) Column standardization using fill_staging_columns 
+      to ensure all expected columns exist even if missing from source, (2) Column 
+      renaming for consistency (e.g., id → worker_id, active → is_active), (3) Fivetran 
+      History Mode filtering using _fivetran_start/_fivetran_end to return only the 
+      current version of each record. Contains employment status, compensation details, 
+      termination information, and worker-level attributes.
     columns:
       - name: worker_id
         description: '{{ doc("worker_id") }}'
@@ -34,8 +38,11 @@ models:
 
   - name: stg_workday__worker_position
     description: >
-      Staging model for worker position data. Contains job title, location, employment type,
-      and position-specific details. Filters to only active Fivetran records.
+      Staging model for worker position data that transforms raw data from the base layer. 
+      Applies column standardization via fill_staging_columns, renames columns for 
+      consistency (e.g., business_site_summary_location → position_location), and filters 
+      to current records using Fivetran History Mode (_fivetran_start/_fivetran_end). 
+      Contains job title, location, employment type, and position-specific details.
     columns:
       - name: worker_id
         description: '{{ doc("worker_id") }}'
@@ -57,7 +64,9 @@ models:
 
   - name: stg_workday__personal_information_common_data
     description: >
-      Staging model for common personal information. Contains date of birth, nationality, 
+      Staging model for common personal information that transforms raw data from the 
+      base layer. Applies fill_staging_columns for schema flexibility, standardizes 
+      column names, and filters to current records. Contains date of birth, nationality, 
       citizenship status, and birth location details.
     columns:
       - name: fivetran_id
@@ -89,7 +98,9 @@ models:
 
   - name: stg_workday__country_personal_information
     description: >
-      Staging model for country-specific personal information. Contains gender, 
+      Staging model for country-specific personal information that transforms raw data 
+      from the base layer. Uses fill_staging_columns for schema resilience, standardizes 
+      column names, and applies Fivetran History Mode filtering. Contains gender, 
       Hispanic/Latino indicator, and marital status.
     columns:
       - name: fivetran_id
@@ -120,8 +131,9 @@ models:
 
   - name: stg_workday__person_name
     description: >
-      Staging model for person name data. Contains first name, last name, and name type.
-      Used to get the preferred name for employee displays.
+      Staging model for person name data that transforms raw data from the base layer. 
+      Applies column standardization and renaming (e.g., type → person_name_type), and 
+      filters to current records. Used to get the preferred name for employee displays.
     columns:
       - name: worker_id
         description: '{{ doc("worker_id") }}'
@@ -143,8 +155,10 @@ models:
 
   - name: stg_workday__person_contact_email_address
     description: >
-      Staging model for person email addresses. Contains work and personal email 
-      addresses with email type codes.
+      Staging model for person email addresses that transforms raw data from the base 
+      layer. Uses fill_staging_columns for schema flexibility, renames columns (e.g., 
+      id → person_contact_email_address_id), and filters to non-deleted records. 
+      Contains work and personal email addresses with email type codes.
     columns:
       - name: person_contact_email_address_id
         description: Unique identifier for the email record.
@@ -174,8 +188,10 @@ models:
 
   - name: stg_workday__personal_information_ethnicity
     description: >
-      Staging model for ethnicity information. Contains ethnicity codes that are 
-      aggregated at the worker level in downstream models.
+      Staging model for ethnicity information that transforms raw data from the base 
+      layer. Applies column standardization and renaming (e.g., id → ethnicity_id), 
+      filters to non-deleted records. Ethnicity codes are aggregated at the worker 
+      level in downstream intermediate models.
     columns:
       - name: ethnicity_id
         description: Unique identifier for the ethnicity record.
@@ -196,8 +212,10 @@ models:
 
   - name: stg_workday__military_service
     description: >
-      Staging model for military service records. Contains service branch, rank, 
-      discharge type, and service dates.
+      Staging model for military service records that transforms raw data from the base 
+      layer. Uses fill_staging_columns for schema resilience, standardizes column names, 
+      and filters to non-deleted records. Contains service branch, rank, discharge type, 
+      and service dates.
     columns:
       - name: worker_id
         description: Foreign key linking to personal_information_common_data.
