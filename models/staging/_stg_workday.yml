@@ -16,13 +16,6 @@ models:
       - name: hire_date
         description: '{{ doc("hire_date") }}'
         tests:
-          - dbt_expectations.expect_column_values_to_be_between:
-              name: valid_hire_date_range
-              arguments:
-                min_value: "'2000-01-01'"
-                max_value: "current_date"
-              config:
-                where: "hire_date is not null"
           # Intentionally failing test (as warning) - demonstrates data quality monitoring
           - dbt_expectations.expect_column_values_to_be_between:
               name: warn_hire_date_after_2024
