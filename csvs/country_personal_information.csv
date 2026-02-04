@@ -1,0 +1,6 @@
+fivetran_id,personal_info_common_id,country_code,_fivetran_synced,_fivetran_deleted,gender,hispanic_or_latino,hukou_locality,hukou_postal_code,hukou_region_code,hukou_subregion_code,hukou_type_code,local_hukou,marital_status,marital_status_date,native_region_code,native_region,personnel_file_agency_for_person,political_affiliation,religion,social_benefits_locality
+CPI_001,PI_COMMON_001,USA,2024-01-15 10:30:00,false,Male,false,,,,,,, Single_USA,,,,,,,
+CPI_002,PI_COMMON_002,USA,2024-01-15 10:30:00,false,Female,false,,,,,,,Married_USA,2015-06-20,,,,,,
+CPI_003,PI_COMMON_003,USA,2024-01-15 10:30:00,false,Male,true,,,,,,,Single_USA,,,,,,,
+CPI_004,PI_COMMON_004,USA,2024-01-15 10:30:00,false,Male,true,,,,,,,Married_USA,2018-09-15,,,,,,
+CPI_005,PI_COMMON_005,GBR,2024-01-15 10:30:00,false,Female,false,,,,,,,Single_UK,,,,,,,

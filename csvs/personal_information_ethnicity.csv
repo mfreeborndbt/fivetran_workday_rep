@@ -1,0 +1,6 @@
+_fivetran_deleted,_fivetran_synced,id,country_personal_information_id,ethnicity_code
+false,2024-01-15 10:30:00,ETH_001,CPI_001,White
+false,2024-01-15 10:30:00,ETH_002,CPI_002,Asian
+false,2024-01-15 10:30:00,ETH_003,CPI_003,Hispanic_Latino
+false,2024-01-15 10:30:00,ETH_004,CPI_004,Hispanic_Latino
+false,2024-01-15 10:30:00,ETH_005,CPI_005,White

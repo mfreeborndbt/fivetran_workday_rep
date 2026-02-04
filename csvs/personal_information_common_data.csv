@@ -1,0 +1,6 @@
+fivetran_id,worker_id,_fivetran_synced,_fivetran_deleted,additional_nationality,blood_type,citizenship_status,city_of_birth,city_of_birth_code,country_of_birth,country_region_of_birth,date_of_birth,date_of_death,last_medical_exam_date,last_medical_exam_valid_to,medical_exam_notes,primary_nationality,region_of_birth
+PI_COMMON_001,WRK001,2024-01-15 10:30:00,false,,"[""Citizen_by_Birth_United_States""]",Austin,,USA,,1988-07-22,,,,,USA,TX
+PI_COMMON_002,WRK002,2024-01-15 10:30:00,false,,"[""Citizen_by_Birth_United_States""]",Seattle,,USA,,1982-03-14,,,,,USA,WA
+PI_COMMON_003,WRK003,2024-01-15 10:30:00,false,,"[""Citizen_by_Birth_United_States""]",Denver,,USA,,1995-11-08,,,,,USA,CO
+PI_COMMON_004,WRK004,2024-01-15 10:30:00,false,,"[""Citizen_by_Birth_United_States""]",Miami,,USA,,1985-05-30,,,,,USA,FL
+PI_COMMON_005,WRK005,2024-01-15 10:30:00,false,,"[""Citizen_United_Kingdom""]",Manchester,,GBR,,1990-09-12,,,,,GBR,Greater Manchester

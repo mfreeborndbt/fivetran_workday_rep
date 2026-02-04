@@ -1,0 +1,114 @@
+version: 2
+
+sources:
+  - name: workday
+    database: 'Workday'
+    schema: 'workday_raw'
+    tables:
+      - name: worker_history
+        description: 'Worker history data including employment status, compensation, and termination details.'
+        columns:
+          - name: id
+            description: 'Unique identifier for the worker.'
+          - name: _fivetran_active
+            description: 'TRUE if it is the currently active record.'
+          - name: _fivetran_start
+            description: 'Timestamp when the record was first created or modified in the source.'
+          - name: _fivetran_end
+            description: 'Timestamp marking the end of a record being active.'
+          - name: _fivetran_deleted
+            description: 'Indicates if the record was soft-deleted by Fivetran.'
+          - name: _fivetran_synced
+            description: 'Timestamp the record was synced by Fivetran.'
+
+      - name: worker_position_history
+        description: 'Worker position history including job details, location, and employment type.'
+        columns:
+          - name: position_id
+            description: 'Identifier for the specific position.'
+          - name: worker_id
+            description: 'Unique identifier for the worker.'
+          - name: _fivetran_active
+            description: 'TRUE if it is the currently active record.'
+          - name: _fivetran_start
+            description: 'Timestamp when the record was first created or modified in the source.'
+          - name: _fivetran_end
+            description: 'Timestamp marking the end of a record being active.'
+          - name: _fivetran_deleted
+            description: 'Indicates if the record was soft-deleted by Fivetran.'
+          - name: _fivetran_synced
+            description: 'Timestamp the record was synced by Fivetran.'
+
+      - name: personal_information_common_data
+        description: 'Common personal information including date of birth, nationality, and citizenship.'
+        columns:
+          - name: fivetran_id
+            description: 'Fivetran composite key identifier.'
+          - name: worker_id
+            description: 'Unique identifier for the worker.'
+          - name: _fivetran_synced
+            description: 'Timestamp the record was synced by Fivetran.'
+
+      - name: country_personal_information
+        description: 'Country-specific personal information including gender and marital status.'
+        columns:
+          - name: fivetran_id
+            description: 'Fivetran composite key identifier.'
+          - name: personal_info_common_id
+            description: 'Personal information common data ID linking to worker.'
+          - name: country_code
+            description: 'Country code for country-specific information.'
+          - name: _fivetran_synced
+            description: 'Timestamp the record was synced by Fivetran.'
+
+      - name: person_name
+        description: 'Person name data including first name, last name, and name type.'
+        columns:
+          - name: index
+            description: 'An index for a particular identifier.'
+          - name: personal_info_system_id
+            description: 'The system ID associated with the personal information of the individual.'
+          - name: type
+            description: 'The type or category of the person name.'
+          - name: _fivetran_deleted
+            description: 'Indicates if the record was soft-deleted by Fivetran.'
+          - name: _fivetran_synced
+            description: 'Timestamp the record was synced by Fivetran.'
+
+      - name: person_contact_email_address
+        description: 'Contact email addresses for workers.'
+        columns:
+          - name: id
+            description: 'Unique identifier.'
+          - name: personal_info_system_id
+            description: 'The system ID associated with the personal information of the individual.'
+          - name: _fivetran_deleted
+            description: 'Indicates if the record was soft-deleted by Fivetran.'
+          - name: _fivetran_synced
+            description: 'Timestamp the record was synced by Fivetran.'
+
+      - name: personal_information_ethnicity
+        description: 'Ethnicity information for workers.'
+        columns:
+          - name: id
+            description: 'The identifier associated with the ethnicity.'
+          - name: country_personal_information_id
+            description: 'Country personal information ID linking to worker.'
+          - name: ethnicity_code
+            description: 'The code representing the ethnicity of the individual.'
+          - name: _fivetran_deleted
+            description: 'Indicates if the record was soft-deleted by Fivetran.'
+          - name: _fivetran_synced
+            description: 'Timestamp the record was synced by Fivetran.'
+
+      - name: military_service
+        description: 'Military service records for workers.'
+        columns:
+          - name: personal_info_common_id
+            description: 'Personal information common data ID linking to worker.'
+          - name: status_id
+            description: 'Military status identifier.'
+          - name: _fivetran_deleted
+            description: 'Indicates if the record was soft-deleted by Fivetran.'
+          - name: _fivetran_synced
+            description: 'Timestamp the record was synced by Fivetran.'

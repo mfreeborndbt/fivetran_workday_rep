@@ -1,0 +1,3 @@
+_fivetran_deleted,_fivetran_synced,personal_info_common_id,discharge_date,discharge_type,notes,rank,service,status_id,status_begin_date
+false,2024-01-15 10:30:00,PI_COMMON_001,2018-06-01,Honorable,,E-5 Sergeant,US_Army,5_Reserve_United_States_of_America,2014-06-15
+false,2024-01-15 10:30:00,PI_COMMON_004,2015-08-30,Honorable,,O-3 Captain,US_Marine_Corps,0_Inactive_United_States_of_America,2008-07-01
