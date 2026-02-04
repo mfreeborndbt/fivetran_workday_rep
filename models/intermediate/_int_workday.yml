@@ -6,6 +6,8 @@ models:
       Intermediate model enriching worker data with calculated fields. Includes 
       employment status flags, tenure calculations, termination details, and 
       compensation information.
+    config:
+      unique_key: ['worker_id', 'source_relation']
     columns:
       - name: worker_id
         description: '{{ doc("worker_id") }}'
@@ -47,6 +49,8 @@ models:
       Intermediate model combining personal information from multiple sources. 
       Joins common data, country-specific data, names, emails, ethnicity, 
       and military service into a single worker-level record.
+    config:
+      unique_key: ['worker_id', 'source_relation']
     columns:
       - name: worker_id
         description: '{{ doc("worker_id") }}'
@@ -85,6 +89,8 @@ models:
     description: >
       Intermediate model enriching position data with tenure calculations. 
       Calculates days employed in position and adds position-level metrics.
+    config:
+      unique_key: ['worker_id', 'position_id', 'source_relation']
     columns:
       - name: worker_id
         description: '{{ doc("worker_id") }}'

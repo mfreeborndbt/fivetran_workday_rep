@@ -13,6 +13,15 @@ models:
           - not_null
       - name: source_relation
         description: '{{ doc("source_relation") }}'
+      - name: hire_date
+        description: '{{ doc("hire_date") }}'
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: "'2000-01-01'"
+                max_value: "current_date"
+              config:
+                where: "hire_date is not null"
     tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -58,6 +67,15 @@ models:
           - not_null
       - name: source_relation
         description: '{{ doc("source_relation") }}'
+      - name: date_of_birth
+        description: '{{ doc("date_of_birth") }}'
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: "'1940-01-01'"
+                max_value: "'2010-01-01'"
+              config:
+                where: "date_of_birth is not null"
     tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -80,6 +98,14 @@ models:
           - not_null
       - name: source_relation
         description: '{{ doc("source_relation") }}'
+      - name: gender
+        description: '{{ doc("gender") }}'
+        tests:
+          - dbt_expectations.expect_column_values_to_be_in_set:
+              arguments:
+                value_set: ['Male', 'Female', 'Non-Binary', 'Other', 'Prefer Not to Say']
+              config:
+                where: "gender is not null"
     tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -127,6 +153,12 @@ models:
         description: '{{ doc("source_relation") }}'
       - name: email_address
         description: '{{ doc("email_address") }}'
+        tests:
+          - dbt_expectations.expect_column_values_to_match_regex:
+              arguments:
+                regex: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+              config:
+                where: "email_address is not null"
     tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:

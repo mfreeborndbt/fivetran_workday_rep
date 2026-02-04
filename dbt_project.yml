@@ -9,18 +9,25 @@ profile: 'workday_fivetran_dbt'
 
 model-paths: ["models"]
 macro-paths: ["macros"]
+test-paths: ["tests"]
+analysis-paths: ["analyses"]
+seed-paths: ["seeds"]
+snapshot-paths: ["snapshots"]
 
 models:
   workday_employee_overview:
     +schema: workday
-    +materialized: table
     intermediate:
-      +materialized: ephemeral
+      +materialized: incremental
+      +unique_key: ['worker_id', 'source_relation']
+      +on_schema_change: append_new_columns
     staging:
-      +materialized: ephemeral
+      +materialized: view
       +schema: stg_workday
       base:
         +materialized: view
+    marts:
+      +materialized: table
 
 vars:
     # Source table references - pointing to Workday.workday_raw
