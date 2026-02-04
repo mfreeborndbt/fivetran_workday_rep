@@ -7,12 +7,22 @@ sources:
     database: 'Workday'
     schema: 'workday_raw'
     
+    # Default freshness for all tables - 3 years (will pass since data is ~2 years old)
+    config:
+      freshness:
+        error_after: { count: 1095, period: day }
+    
     tables:
+      # This one will FAIL - freshness error after 1 hour
       - name: worker_history
         description: >
           Worker history data including employment status, compensation, and termination details.
           This is the primary employee record table containing hire dates, termination info,
           and compensation data.
+        config:
+          freshness:
+            error_after: { count: 1, period: hour }
+          loaded_at_field: _fivetran_synced
         columns:
           - name: id
             description: 'Unique identifier for the worker.'
@@ -38,6 +48,10 @@ sources:
       - name: worker_position_history
         description: >
           Worker position history including job details, location, and employment type.
+        config:
+          freshness:
+            error_after: { count: 1095, period: day }
+          loaded_at_field: _fivetran_synced
         columns:
           - name: position_id
             description: '{{ doc("position_id") }}'
@@ -65,6 +79,10 @@ sources:
       - name: personal_information_common_data
         description: >
           Common personal information including date of birth, nationality, and citizenship.
+        config:
+          freshness:
+            error_after: { count: 1095, period: day }
+          loaded_at_field: _fivetran_synced
         columns:
           - name: fivetran_id
             description: '{{ doc("fivetran_id") }}'
@@ -84,6 +102,10 @@ sources:
       - name: country_personal_information
         description: >
           Country-specific personal information including gender and marital status.
+        config:
+          freshness:
+            error_after: { count: 1095, period: day }
+          loaded_at_field: _fivetran_synced
         columns:
           - name: fivetran_id
             description: '{{ doc("fivetran_id") }}'
@@ -103,6 +125,10 @@ sources:
       - name: person_name
         description: >
           Person name data including first name, last name, and name type.
+        config:
+          freshness:
+            error_after: { count: 1095, period: day }
+          loaded_at_field: _fivetran_synced
         columns:
           - name: index
             description: 'An index for a particular identifier.'
@@ -122,6 +148,10 @@ sources:
       - name: person_contact_email_address
         description: >
           Contact email addresses for workers.
+        config:
+          freshness:
+            error_after: { count: 1095, period: day }
+          loaded_at_field: _fivetran_synced
         columns:
           - name: id
             description: 'Unique identifier.'
@@ -139,6 +169,10 @@ sources:
       - name: personal_information_ethnicity
         description: >
           Ethnicity information for workers.
+        config:
+          freshness:
+            error_after: { count: 1095, period: day }
+          loaded_at_field: _fivetran_synced
         columns:
           - name: id
             description: 'The identifier associated with the ethnicity record.'
@@ -154,6 +188,10 @@ sources:
       - name: military_service
         description: >
           Military service records for workers.
+        config:
+          freshness:
+            error_after: { count: 1095, period: day }
+          loaded_at_field: _fivetran_synced
         columns:
           - name: personal_info_common_id
             description: 'Personal information common data ID linking to worker.'

@@ -13,8 +13,6 @@ test-paths: ["tests"]
 analysis-paths: ["analyses"]
 seed-paths: ["seeds"]
 snapshot-paths: ["snapshots"]
-# Note: operations/ folder contains dbt Cloud-specific configs (source freshness)
-# that are not supported by dbt Fusion preview
 
 models:
   workday_employee_overview:
