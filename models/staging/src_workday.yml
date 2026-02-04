@@ -2,113 +2,177 @@ version: 2
 
 sources:
   - name: workday
+    description: >
+      Workday HCM data synced via Fivetran. Contains employee, position, and personal information.
+      
+      Source Freshness Configuration (run with `dbt source freshness` in dbt Cloud):
+      - worker_history: ERROR after 1 hour (demo - will fail since data is from Jan 2024)
+      - worker_position_history: WARN after 1 hour (demo - will show warning)
+      - All other tables: ERROR after 730 days (will pass)
     database: 'Workday'
     schema: 'workday_raw'
+    
     tables:
       - name: worker_history
-        description: 'Worker history data including employment status, compensation, and termination details.'
+        description: >
+          Worker history data including employment status, compensation, and termination details.
+          This is the primary employee record table containing hire dates, termination info,
+          and compensation data.
         columns:
           - name: id
             description: 'Unique identifier for the worker.'
           - name: _fivetran_active
-            description: 'TRUE if it is the currently active record.'
+            description: '{{ doc("_fivetran_active") }}'
           - name: _fivetran_start
-            description: 'Timestamp when the record was first created or modified in the source.'
+            description: '{{ doc("_fivetran_start") }}'
           - name: _fivetran_end
-            description: 'Timestamp marking the end of a record being active.'
+            description: '{{ doc("_fivetran_end") }}'
           - name: _fivetran_deleted
-            description: 'Indicates if the record was soft-deleted by Fivetran.'
+            description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
-            description: 'Timestamp the record was synced by Fivetran.'
+            description: '{{ doc("_fivetran_synced") }}'
+          - name: active
+            description: 'Boolean indicating if the worker is currently active.'
+          - name: hire_date
+            description: '{{ doc("hire_date") }}'
+          - name: termination_date
+            description: 'Date the worker was terminated, if applicable.'
+          - name: compensation_grade_id
+            description: '{{ doc("compensation_grade_id") }}'
 
       - name: worker_position_history
-        description: 'Worker position history including job details, location, and employment type.'
+        description: >
+          Worker position history including job details, location, and employment type.
         columns:
           - name: position_id
-            description: 'Identifier for the specific position.'
+            description: '{{ doc("position_id") }}'
           - name: worker_id
-            description: 'Unique identifier for the worker.'
+            description: '{{ doc("worker_id") }}'
           - name: _fivetran_active
-            description: 'TRUE if it is the currently active record.'
+            description: '{{ doc("_fivetran_active") }}'
           - name: _fivetran_start
-            description: 'Timestamp when the record was first created or modified in the source.'
+            description: '{{ doc("_fivetran_start") }}'
           - name: _fivetran_end
-            description: 'Timestamp marking the end of a record being active.'
+            description: '{{ doc("_fivetran_end") }}'
           - name: _fivetran_deleted
-            description: 'Indicates if the record was soft-deleted by Fivetran.'
+            description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
-            description: 'Timestamp the record was synced by Fivetran.'
+            description: '{{ doc("_fivetran_synced") }}'
+          - name: business_title
+            description: '{{ doc("business_title") }}'
+          - name: job_profile_id
+            description: '{{ doc("job_profile_id") }}'
+          - name: employee_type
+            description: '{{ doc("employee_type") }}'
+          - name: business_site_summary_location
+            description: 'Physical location of the position.'
 
       - name: personal_information_common_data
-        description: 'Common personal information including date of birth, nationality, and citizenship.'
+        description: >
+          Common personal information including date of birth, nationality, and citizenship.
         columns:
           - name: fivetran_id
-            description: 'Fivetran composite key identifier.'
+            description: '{{ doc("fivetran_id") }}'
           - name: worker_id
-            description: 'Unique identifier for the worker.'
+            description: '{{ doc("worker_id") }}'
           - name: _fivetran_synced
-            description: 'Timestamp the record was synced by Fivetran.'
+            description: '{{ doc("_fivetran_synced") }}'
+          - name: date_of_birth
+            description: '{{ doc("date_of_birth") }}'
+          - name: primary_nationality
+            description: 'Primary nationality of the worker.'
+          - name: country_of_birth
+            description: 'Country where the worker was born.'
+          - name: city_of_birth
+            description: 'City where the worker was born.'
 
       - name: country_personal_information
-        description: 'Country-specific personal information including gender and marital status.'
+        description: >
+          Country-specific personal information including gender and marital status.
         columns:
           - name: fivetran_id
-            description: 'Fivetran composite key identifier.'
+            description: '{{ doc("fivetran_id") }}'
           - name: personal_info_common_id
             description: 'Personal information common data ID linking to worker.'
           - name: country_code
             description: 'Country code for country-specific information.'
           - name: _fivetran_synced
-            description: 'Timestamp the record was synced by Fivetran.'
+            description: '{{ doc("_fivetran_synced") }}'
+          - name: gender
+            description: '{{ doc("gender") }}'
+          - name: hispanic_or_latino
+            description: 'Boolean indicating if the person is Hispanic or Latino.'
+          - name: marital_status
+            description: 'Marital status of the worker.'
 
       - name: person_name
-        description: 'Person name data including first name, last name, and name type.'
+        description: >
+          Person name data including first name, last name, and name type.
         columns:
           - name: index
             description: 'An index for a particular identifier.'
           - name: personal_info_system_id
             description: 'The system ID associated with the personal information of the individual.'
           - name: type
-            description: 'The type or category of the person name.'
+            description: 'The type or category of the person name (preferred, legal, etc.).'
+          - name: first_name
+            description: '{{ doc("first_name") }}'
+          - name: last_name
+            description: '{{ doc("last_name") }}'
           - name: _fivetran_deleted
-            description: 'Indicates if the record was soft-deleted by Fivetran.'
+            description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
-            description: 'Timestamp the record was synced by Fivetran.'
+            description: '{{ doc("_fivetran_synced") }}'
 
       - name: person_contact_email_address
-        description: 'Contact email addresses for workers.'
+        description: >
+          Contact email addresses for workers.
         columns:
           - name: id
             description: 'Unique identifier.'
           - name: personal_info_system_id
             description: 'The system ID associated with the personal information of the individual.'
+          - name: email_address
+            description: '{{ doc("email_address") }}'
+          - name: email_code
+            description: 'Code indicating email type (work, personal, etc.).'
           - name: _fivetran_deleted
-            description: 'Indicates if the record was soft-deleted by Fivetran.'
+            description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
-            description: 'Timestamp the record was synced by Fivetran.'
+            description: '{{ doc("_fivetran_synced") }}'
 
       - name: personal_information_ethnicity
-        description: 'Ethnicity information for workers.'
+        description: >
+          Ethnicity information for workers.
         columns:
           - name: id
-            description: 'The identifier associated with the ethnicity.'
+            description: 'The identifier associated with the ethnicity record.'
           - name: country_personal_information_id
             description: 'Country personal information ID linking to worker.'
           - name: ethnicity_code
-            description: 'The code representing the ethnicity of the individual.'
+            description: '{{ doc("ethnicity_codes") }}'
           - name: _fivetran_deleted
-            description: 'Indicates if the record was soft-deleted by Fivetran.'
+            description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
-            description: 'Timestamp the record was synced by Fivetran.'
+            description: '{{ doc("_fivetran_synced") }}'
 
       - name: military_service
-        description: 'Military service records for workers.'
+        description: >
+          Military service records for workers.
         columns:
           - name: personal_info_common_id
             description: 'Personal information common data ID linking to worker.'
           - name: status_id
-            description: 'Military status identifier.'
+            description: '{{ doc("military_status") }}'
+          - name: service
+            description: 'Branch of military service (Army, Navy, etc.).'
+          - name: rank
+            description: 'Military rank achieved.'
+          - name: discharge_date
+            description: 'Date of discharge from military service.'
+          - name: discharge_type
+            description: 'Type of discharge (Honorable, etc.).'
           - name: _fivetran_deleted
-            description: 'Indicates if the record was soft-deleted by Fivetran.'
+            description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
-            description: 'Timestamp the record was synced by Fivetran.'
+            description: '{{ doc("_fivetran_synced") }}'

@@ -56,6 +56,8 @@ models:
         description: '{{ doc("source_relation") }}'
       - name: fivetran_id
         description: '{{ doc("fivetran_id") }}'
+      - name: personal_country_id
+        description: Unique identifier for the country-specific personal information record.
       - name: first_name
         description: '{{ doc("first_name") }}'
       - name: last_name
@@ -135,6 +137,98 @@ models:
         description: '{{ doc("source_relation") }}'
       - name: fivetran_id
         description: '{{ doc("fivetran_id") }}'
+      - name: worker_code
+        description: '{{ doc("worker_code") }}'
+      - name: user_id
+        description: '{{ doc("user_id") }}'
+      - name: universal_id
+        description: '{{ doc("universal_id") }}'
+      - name: is_user_active
+        description: '{{ doc("is_user_active") }}'
+      - name: is_employed
+        description: '{{ doc("is_employed") }}'
+      - name: hire_date
+        description: '{{ doc("hire_date") }}'
+      - name: departure_date
+        description: '{{ doc("departure_date") }}'
+      - name: days_as_worker
+        description: '{{ doc("days_as_worker") }}'
+      - name: is_terminated
+        description: '{{ doc("is_terminated") }}'
+      - name: primary_termination_category
+        description: '{{ doc("primary_termination_category") }}'
+      - name: primary_termination_reason
+        description: '{{ doc("primary_termination_reason") }}'
+      - name: is_regrettable_termination
+        description: '{{ doc("is_regrettable_termination") }}'
+      - name: compensation_effective_date
+        description: '{{ doc("compensation_effective_date") }}'
+      - name: employee_compensation_frequency
+        description: '{{ doc("employee_compensation_frequency") }}'
+      - name: annual_currency_summary_currency
+        description: '{{ doc("annual_currency_summary_currency") }}'
+      - name: annual_currency_summary_total_base_pay
+        description: '{{ doc("annual_currency_summary_total_base_pay") }}'
+      - name: compensation_grade_id
+        description: '{{ doc("compensation_grade_id") }}'
+      - name: compensation_grade_profile_id
+        description: '{{ doc("compensation_grade_profile_id") }}'
+      - name: first_name
+        description: '{{ doc("first_name") }}'
+      - name: last_name
+        description: '{{ doc("last_name") }}'
+      - name: date_of_birth
+        description: '{{ doc("date_of_birth") }}'
+      - name: gender
+        description: '{{ doc("gender") }}'
+      - name: is_hispanic_or_latino
+        description: '{{ doc("is_hispanic_or_latino") }}'
+      - name: email_address
+        description: '{{ doc("email_address") }}'
+      - name: ethnicity_codes
+        description: '{{ doc("ethnicity_codes") }}'
+      - name: military_status
+        description: '{{ doc("military_status") }}'
+      - name: business_title
+        description: '{{ doc("business_title") }}'
+      - name: job_profile_id
+        description: '{{ doc("job_profile_id") }}'
+      - name: employee_type
+        description: '{{ doc("employee_type") }}'
+      - name: position_location
+        description: '{{ doc("position_location") }}'
+      - name: management_level_code
+        description: '{{ doc("management_level_code") }}'
+      - name: fte_percent
+        description: '{{ doc("fte_percent") }}'
+      - name: position_start_date
+        description: '{{ doc("position_start_date") }}'
+      - name: position_end_date
+        description: '{{ doc("position_end_date") }}'
+      - name: position_effective_date
+        description: '{{ doc("position_effective_date") }}'
+      - name: days_employed
+        description: '{{ doc("days_employed") }}'
+      - name: is_employed_one_year
+        description: Flag indicating if employee has been employed for at least 1 year.
+      - name: is_employed_five_years
+        description: Flag indicating if employee has been employed for at least 5 years.
+      - name: is_employed_ten_years
+        description: Flag indicating if employee has been employed for at least 10 years.
+      - name: is_employed_twenty_years
+        description: Flag indicating if employee has been employed for at least 20 years.
+      - name: is_employed_thirty_years
+        description: Flag indicating if employee has been employed for at least 30 years.
+      - name: is_current_employee_one_year
+        description: Flag indicating if current active employee has been employed for at least 1 year.
+      - name: is_current_employee_five_years
+        description: Flag indicating if current active employee has been employed for at least 5 years.
+      - name: is_current_employee_ten_years
+        description: Flag indicating if current active employee has been employed for at least 10 years.
+      - name: is_current_employee_twenty_years
+        description: Flag indicating if current active employee has been employed for at least 20 years.
+      - name: is_current_employee_thirty_years
+        description: Flag indicating if current active employee has been employed for at least 30 years.
     tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
